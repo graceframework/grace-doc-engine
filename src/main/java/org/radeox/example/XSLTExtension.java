@@ -27,14 +27,14 @@ import org.radeox.engine.BaseRenderEngine;
  * An xslt extension function to render snip content using radeox.
  *
  * Example usage:
- * <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
- * xmlns:radeox="http://snipsnap.org/org.radeox.example.XSLTExtension">
- * É
- * <xsl:template match="content">
- *   <content><xsl:value-of select="radeox:render(.)" disable-output-escaping="yes"/></content>
- * </xsl:template>
- * É
- * </xsl:stylesheet>
+ * &lt;xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+ * xmlns:radeox="http://snipsnap.org/org.radeox.example.XSLTExtension"&gt;
+ *
+ * &lt;xsl:template match="content"&gt;
+ *   &lt;content&gt;&lt;xsl:value-of select="radeox:render(.)" disable-output-escaping="yes"/&gt;&lt;/content&gt;
+ * &lt;/xsl:template&gt;
+ *
+ * &lt;/xsl:stylesheet&gt;
  * @author Micah Dubinko
  * @version $Id: XSLTExtension.java,v 1.3 2004/05/26 08:56:20 stephan Exp $
  */

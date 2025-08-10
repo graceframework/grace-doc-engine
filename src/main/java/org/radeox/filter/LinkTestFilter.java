@@ -51,7 +51,7 @@ public class LinkTestFilter extends LocaleRegexTokenFilter {
    * The regular expression for detecting WikiLinks.
    * Overwrite in subclass to support other link styles like
    * OldAndUglyWikiLinking :-)
-   * <p/>
+   * <p>
    * /[A-Z][a-z]+([A-Z][a-z]+)+/
    * wikiPattern = "\\[(.*?)\\]";
    */
