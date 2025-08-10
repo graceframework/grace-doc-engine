@@ -1,123 +1,114 @@
-apply plugin: "groovy"
-apply plugin: "maven"
-apply plugin: 'signing'    
-
-group = "org.grails"
-version = "1.0.1"
-
-configurations {
-    deployerJars
-    optional
+buildscript {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath "io.github.gradle-nexus:publish-plugin:2.0.0"
+    }
 }
+
+ext {
+    isReleaseVersion = !project.projectVersion.endsWith('-SNAPSHOT')
+}
+
+group = "org.graceframework"
+version = project.projectVersion
+
+apply plugin: 'idea'
+apply plugin: 'groovy'
+apply plugin: 'java-library'
+apply plugin: 'signing'
+apply plugin: 'maven-publish'
+apply plugin: 'io.github.gradle-nexus.publish-plugin'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    def groovyDep = "org.codehaus.groovy:groovy:1.7.6"
-
-    groovy groovyDep
-
-    compile  "org.slf4j:jcl-over-slf4j:1.6.1"
-
-    optional "oro:oro:2.0.8", "picocontainer:picocontainer:1.2", groovyDep
-
-    testCompile "junit:junit:3.8.2", "jmock:jmock:1.2.0", "junitperf:junitperf:1.8", groovyDep
+    api "org.slf4j:jcl-over-slf4j:2.0.17"
+    compileOnly "org.apache.groovy:groovy:4.0.28"
+    compileOnly "org.apache.groovy:groovy-templates:4.0.28"
+    compileOnly "oro:oro:2.0.8"
+    compileOnly "org.picocontainer:picocontainer:1.2"
+    testImplementation "junit:junit:4.13.2"
+    testImplementation "jmock:jmock:1.2.0"
+    testImplementation "junitperf:junitperf:1.8"
+    testImplementation "org.apache.groovy:groovy:4.0.28"
+    testImplementation "org.apache.groovy:groovy-templates:4.0.28"
+    testImplementation "oro:oro:2.0.8"
 }
 
-sourceSets {
-    main {
-        compileClasspath += configurations.optional
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
     }
-    test {
-        runtimeClasspath += configurations.optional
+    withJavadocJar()
+    withSourcesJar()
+}
+
+test {
+    excludes = ["**/*Support.class"]
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            def mavenUser = System.getenv("MAVEN_CENTRAL_USER") ?: project.hasProperty("mavenCentralUsername") ? project.mavenCentralUsername : ''
+            def mavenPass = System.getenv("MAVEN_CENTRAL_PASSWORD") ?: project.hasProperty("mavenCentralPassword") ? project.mavenCentralPassword : ''
+            nexusUrl = uri("https://ossrh-staging-api.central.sonatype.com/service/local/")
+            snapshotRepositoryUrl = uri("https://central.sonatype.com/repository/maven-snapshots/")
+            username = mavenUser
+            password = mavenPass
+        }
     }
 }
 
-test.excludes = ["**/*Support.class"]
-
-task sourcesJar(type: Jar, dependsOn:classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar, dependsOn:javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-
-artifacts {
-    archives jar
-    archives sourcesJar
-    archives javadocJar
-}
-
-signing {
-    sign configurations.archives
-}
-
-uploadArchives {
-    description = "Does a maven deploy of archives artifacts"
-
-    repositories.mavenDeployer {
-        beforeDeployment { MavenDeployment deployment ->
-            signing.signPom(deployment)
-        }
-
-        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-            authentication(userName: project.hasProperty("sonatypeUsername") ? project.sonatypeUsername : null,
-                    password: project.hasProperty("sonatypePassword") ?  project.sonatypePassword : null)
-        }
-        snapshotRepository(url: "http://repo.grails.org/grails/libs-snapshots-local") {
-            authentication(userName: project.hasProperty("artifactoryPublishUsername") ? project.artifactoryPublishUsername : null,
-                    password: project.hasProperty("artifactoryPublishPassword") ?  project.artifactoryPublishPassword : null)
-        }
-
-        pom.project {
-            name 'Grails Doc Engine'
-            packaging 'jar'
-            description 'Documentation engine used to generate Grails docs'
-            delegate.url 'http://grails.org/'
-
-            licenses {
-                license {
-                    name 'The Apache Software License, Version 2.0'
-                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    distribution 'repo'
+publishing {
+    publications {
+        maven(MavenPublication) {
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
                 }
             }
 
-            scm {
-                delegate.url 'scm:git@github.com:grails/grails-gdoc-engine.git'
-                connection 'scm:git@github.com:grails/grails-gdoc-engine.git'
-                developerConnection 'scm:git@github.com:grails/grails-gdoc-engine.git'
-            }
+            from components.java
 
-            licenses {
-                license {
-                    name 'The Apache Software License, Version 2.0'
-                    delegate.url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    distribution 'repo'
+            pom {
+                name = "Grace Doc Engine"
+                description = "Grace Documentation engine used to generate Grace docs"
+                url = 'https://github.com/graceframework/grace-doc-engine'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
                 }
-            }
-
-            developers {
-                developer {
-                    id 'alkemist'
-                    name 'Luke Daley'
+                developers {
+                    developer {
+                        id = 'rainboyan'
+                        name = 'Michael Yan'
+                        email = 'rain@rainboyan.com'
+                    }
                 }
-                
-                developer {
-                    id 'graemerocher'
-                    name 'Graeme Rocher'
+                scm {
+                    connection = 'scm:git:git://github.com/graceframework/grace-doc-engine.git'
+                    developerConnection = 'scm:git:ssh://github.com:graceframework/grace-doc-engine.git'
+                    url = 'https://github.com/graceframework/grace-doc-engine'
                 }
-                developer {
-                        id 'pledbrook'
-                        name 'Peter Ledbrook'
-                }                    
             }
         }
+    }
+}
+
+afterEvaluate {
+    signing {
+        required { isReleaseVersion && gradle.taskGraph.hasTask("publish") }
+        sign publishing.publications.maven
     }
 }
