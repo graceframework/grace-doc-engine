@@ -107,6 +107,15 @@ publishing {
     }
 }
 
+tasks.withType(io.github.gradlenexus.publishplugin.InitializeNexusStagingRepository).configureEach {
+    shouldRunAfter(tasks.withType(Sign))
+}
+
+
+tasks.withType(Sign) {
+    onlyIf { isReleaseVersion }
+}
+
 afterEvaluate {
     signing {
         required { isReleaseVersion && gradle.taskGraph.hasTask("publish") }
