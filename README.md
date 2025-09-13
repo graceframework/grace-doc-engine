@@ -9,7 +9,7 @@
 
 # Grace Doc Engine
 
-This repository is a fork of [Grails GDoc Engine](https://github.com/grails/grails-gdoc-engine/), which has been upgraded to Groovy 4.0, it will be used in Grace Framework](https://github.com/graceframework/grace-framework) 2024.0.
+This repository is a fork of [Grails GDoc Engine](https://github.com/grails/grails-gdoc-engine/), which has been upgraded to Groovy 4.0, it will be used in [Grace Framework](https://github.com/graceframework/grace-framework) 2024.0+.
 
 ## Versions
 
