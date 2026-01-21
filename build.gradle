@@ -29,15 +29,15 @@ repositories {
 
 dependencies {
     api "org.slf4j:jcl-over-slf4j:2.0.17"
-    compileOnly "org.apache.groovy:groovy:4.0.28"
-    compileOnly "org.apache.groovy:groovy-templates:4.0.28"
+    compileOnly "org.apache.groovy:groovy:4.0.29"
+    compileOnly "org.apache.groovy:groovy-templates:4.0.29"
     compileOnly "oro:oro:2.0.8"
     compileOnly "org.picocontainer:picocontainer:1.2"
     testImplementation "junit:junit:4.13.2"
     testImplementation "jmock:jmock:1.2.0"
     testImplementation "junitperf:junitperf:1.8"
-    testImplementation "org.apache.groovy:groovy:4.0.28"
-    testImplementation "org.apache.groovy:groovy-templates:4.0.28"
+    testImplementation "org.apache.groovy:groovy:4.0.29"
+    testImplementation "org.apache.groovy:groovy-templates:4.0.29"
     testImplementation "oro:oro:2.0.8"
 }
 
