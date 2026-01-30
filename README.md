@@ -4,8 +4,8 @@
 [![Grace on X](https://img.shields.io/twitter/follow/graceframework?style=social)](https://x.com/graceframework)
 
 [![Java Version](https://img.shields.io/badge/Java-17-blue?style=flat&logo=openjdk&color=437291)](https://docs.oracle.com/en/java/javase/17/)
-[![Groovy Version](https://img.shields.io/badge/Groovy-4.0.28-blue?logo=apachegroovy&style=flat&color=4298b8)](https://groovy-lang.org/releasenotes/groovy-4.0.html)
-[![Gradle Version](https://img.shields.io/badge/Gradle-7.6.6-blue?logo=gradle&style=flat&color=1da2bd)](https://docs.gradle.org/7.6.6/release-notes.html)
+[![Groovy Version](https://img.shields.io/badge/Groovy-4.0.30-blue?logo=apachegroovy&style=flat&color=4298b8)](https://groovy-lang.org/releasenotes/groovy-4.0.html)
+[![Gradle Version](https://img.shields.io/badge/Gradle-8.14.4-blue?logo=gradle&style=flat&color=1da2bd)](https://docs.gradle.org/8.14.4/release-notes.html)
 
 # Grace Doc Engine
 
