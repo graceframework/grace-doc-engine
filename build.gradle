@@ -28,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    api "org.slf4j:jcl-over-slf4j:2.0.18"
+    api "org.slf4j:jcl-over-slf4j:2.0.20"
     compileOnly "org.apache.groovy:groovy:4.0.33"
     compileOnly "org.apache.groovy:groovy-templates:4.0.33"
     compileOnly "oro:oro:2.0.8"
